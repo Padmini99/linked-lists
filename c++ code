@@ -1,0 +1,121 @@
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+};
+void insertHead(Node* &head,int data){
+    Node* temp=new Node(data);
+    temp->next=head;
+    head=temp;
+}
+void deleteHead(Node* &head){
+    if(head==NULL){
+        return;
+    }
+    Node* temp=head;
+    head=head->next;
+    delete temp;
+}
+void deleteEnd(Node* &head){
+   if(head==NULL || head->next==NULL){
+       return;
+   } 
+   Node* temp=head;
+   while(temp->next->next!=NULL){
+       temp=temp->next;
+   }
+   delete temp->next;
+   temp->next=NULL;
+}
+void print(Node* &head){
+    Node* temp=head;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }cout<<endl;
+}
+Node* deletePos(Node* &head,int k){
+    if(head==NULL){
+        return head;
+    }
+    if(k==1){
+        Node* temp=head;
+        head=head->next;
+        delete temp;
+        return head;
+    }
+    int cnt=0;
+    Node* temp=head;
+    Node* prev=NULL;
+    while(temp!=NULL){
+        cnt++;
+        if(cnt==k){
+            prev->next=prev->next->next;
+            delete temp;
+            break;
+        }
+        prev=temp;
+        temp=temp->next;
+    }
+    return head;
+}
+Node* deleteEle(Node* &head,int el){
+    if(head==NULL){
+        return head;
+    }
+    if(head->data == el){
+        Node* temp=head;
+        head=head->next;
+        delete temp;
+        return head;
+    }
+    Node* temp=head;
+    Node* prev=NULL;
+    while(temp!=NULL){
+        if(temp->data == el){
+            prev->next=prev->next->next;
+            delete temp;
+            break;
+        }
+        prev=temp;
+        temp=temp->next;
+    }
+    return head;
+}
+int main() {
+    // Write C++ code here
+    Node* node=new Node(4);
+    cout<<node->data<<" ";
+    cout<<node->next<<endl;
+    Node* head=node;
+    print(head);
+    cout<<"insert: ";
+    insertHead(head,1);
+    insertHead(head,5);
+    insertHead(head,2);
+    insertHead(head,3);
+    insertHead(head,6);
+    insertHead(head,8);
+    insertHead(head,7);
+    print(head);
+    cout<<"delete at head: ";
+    deleteHead(head);
+    print(head);
+    cout<<"delete at end: ";
+    deleteEnd(head);
+    print(head);
+    cout<<"delete at pos: ";
+    head = deletePos(head,3);
+    print(head);
+    cout<<"delete at value: ";
+    head = deleteEle(head,6);
+    print(head);
+    return 0;
+}
