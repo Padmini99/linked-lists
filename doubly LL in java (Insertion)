@@ -1,0 +1,93 @@
+class Node {
+    int data;
+    Node next;
+    Node back;
+    Node(int data,Node next,Node back) {
+        this.data=data;
+        this.next = next;
+        this.back = back;
+    }
+    Node(int data) {
+        this.data=data;
+        this.next = null;
+        this.back = null;
+    }
+}
+public class HelloWorld {
+    private static Node con2DLL(int arr[]){
+        Node head=new Node(arr[0]);
+        Node prev=head;
+        for(int i=1;i<arr.length;i++){
+            Node temp=new Node(arr[i],null,prev);
+            prev.next=temp;
+            prev=temp;
+        }
+        return head;
+    }
+    private static void print(Node head) {
+        Node temp = head;
+        while(temp != null){
+            System.out.print(temp.data+" ");
+            temp=temp.next;
+        }
+    System.out.println();
+    }
+    private static Node insertHead(Node head,int data){
+        Node temp=new Node(data,head,null);
+        head.back=temp;
+        return temp;
+        /*
+        Node temp=new Node(data);
+        temp.next=head;
+        head.back=temp;
+        head=temp;
+        return temp;
+        */
+    }
+    private static Node insertBeforeEnd(Node head,int data){
+       if(head==null){
+            return insertHead(head,data);
+        }
+        Node tail=head;
+        while(tail.next!=null){
+            tail=tail.next;
+        }
+        Node prev=tail.back;
+        Node temp=new Node(data,tail,prev);
+        tail.back=temp;
+        prev.next=temp;
+        return head; 
+    }
+    private static Node insertEnd(Node head,int data){
+        if(head==null){
+            return insertHead(head,data);
+        }
+        Node tail=head;
+        while(tail.next!=null){
+            tail=tail.next;
+        }
+        Node temp=new Node(data);
+        tail.next=temp;
+        temp.back=tail;
+        tail=temp;
+        return head;
+    }
+    public static void main(String[] args) {
+        Node node=new Node(3);
+        System.out.println(node.data+" "+node.next+" "+node.back);
+        Node head=node;
+        print(head);
+        System.out.print("insert at head: ");
+        head=insertHead(head,2);
+        head=insertHead(head,1);
+        head=insertHead(head,4);
+        head=insertHead(head,6);
+        print(head);
+        System.out.print("insert at before end: ");
+        head=insertBeforeEnd(head,7);
+        print(head);
+        System.out.print("insert at end: ");
+        head=insertEnd(head,5);
+        print(head);
+    }
+}
