@@ -1,0 +1,121 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+class Node {
+    int data;
+    Node next;
+    Node(int data,Node next) {
+        this.data=data;
+        this.next = next;
+    }
+    Node(int data) {
+        this.data=data;
+        this.next = null;
+    }
+}
+public class HelloWorld {
+    private static void print(Node head) {
+        Node temp = head;
+        while(temp != null){
+            System.out.print(temp.data+" ");
+            temp=temp.next;
+        }
+    System.out.println();
+}
+    private static Node insertHead(Node head,int data){
+        // if we write another constructor this part will work 
+        Node temp = new Node(data,head);
+        return temp;
+        /*  with only constructor this part will works
+        Node temp = new Node(data,head);
+        temp.data=head;
+        head=temp;
+        return head;*/
+    }
+    private static Node insertTail(Node tail,int data){
+        Node temp = new Node(data);
+        /*
+        if we insert kth elements then also it prints correctly
+        if(tail == NULL) {
+        tail = temp;
+        return;
+        }
+        while (tail->next != NULL) {
+            tail = tail->next;
+        }*/
+        tail.next=temp;;
+        tail=temp;
+        return tail;
+    }
+    private static Node insertPos(Node head,int data,int k){
+        if(head==null){
+            if(k==1){
+                return new Node(data);
+             }
+            else{
+                return head;
+             }
+        }
+        if(k==1){
+            Node temp = new Node(data);
+            temp.next=head;
+            head=temp;
+        }
+        int cnt=0;
+        Node temp=head;
+        while(temp!=null){
+            cnt++;
+            if(cnt==(k-1)){
+                Node n=new Node(data);
+                n.next=temp.next;
+                temp.next=n;
+                break;
+            }
+            temp=temp.next;
+        }
+        return head;
+    }
+    private static Node insertBeforeValue(Node head,int data,int value){
+        if(head==null){
+            return null;
+        }
+        if(head.data == value){
+            Node temp = new Node(data);
+            temp.next=head;
+            head=temp;
+            return head;
+        }
+        Node temp=head;
+        while(temp.next!=null){
+            if(temp.next.data == value){
+                Node n=new Node(data);
+                n.next=temp.next;
+                temp.next=n;
+                break;
+            }
+            temp=temp.next;
+        }
+        return head;
+    }
+    public static void main(String[] args) {
+        Node node=new Node(2);
+        System.out.println(node.data+" "+node.next);
+        Node head=node;
+        print(head);
+        System.out.print("insert at head: ");
+        head=insertHead(head,1);
+        head=insertHead(head,3);
+        head=insertHead(head,5);
+        head=insertHead(head,4);
+        print(head);
+        Node tail=node;
+        System.out.print("insert at tail: ");
+        tail=insertTail(tail,7);
+        print(head);
+        System.out.print("insert at Position: ");
+        head=insertPos(head,6,7);
+        print(head);
+        System.out.print("insert at before value: ");
+        head=insertBeforeValue(head,8,6);
+        print(head);
+    }
+}
