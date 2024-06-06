@@ -1,0 +1,118 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+class Node {
+  public:
+    int data;
+    Node * next;
+    Node(int data) {
+        this->data=data;
+        this->next = NULL;
+    }
+};
+void print(Node* head) 
+{
+    Node* temp = head;
+    while(temp != NULL){
+        cout << temp->data << " ";
+         temp=temp->next;
+    }
+    cout<<endl;
+}
+//insert at head
+void insertHead(Node* &head,int data){
+    Node* temp = new Node(data);
+    temp->next=head;
+    head=temp;
+}
+//insert at tail
+void insertTail(Node* &tail,int data){
+    Node* temp = new Node(data);
+    /*    if we insert kth elements then also it prints correctly
+    if(tail == NULL) {
+        tail = temp;
+        return;
+    }
+    while (tail->next != NULL) {
+        tail = tail->next;
+    }*/
+    tail->next = temp;
+    tail = temp;
+}
+//insert at position 
+Node* insertPos(Node* head,int data,int k){
+    if(head==NULL){
+        if(k==1){
+            return new Node(data);
+        }
+        else{
+            return head;
+        }
+    }
+    if(k==1){
+        Node* temp = new Node(data);
+        temp->next=head;
+        head=temp;
+        return head;
+    }
+    int cnt=0;
+    Node* temp=head;
+    while(temp!=NULL){
+        cnt++;
+        if(cnt==(k-1)){
+            Node* n=new Node(data);
+            n->next=temp->next;
+            temp->next=n;
+            break;
+        }
+        temp=temp->next;
+    }
+    return head;
+}
+// insert at before value
+Node* insertBeforeValue(Node* head,int data,int value){
+    if(head==NULL){
+        return NULL;
+    }
+    if(head->data == value){
+        Node* temp = new Node(data);
+        temp->next=head;
+        head=temp;
+        return head;
+    }
+    Node* temp=head;
+    while(temp->next!=NULL){
+        if(temp->next->data == value){
+            Node* n=new Node(data);
+            n->next=temp->next;
+            temp->next=n;
+            break;
+        }
+        temp=temp->next;
+    }
+    return head;
+}
+int main() {
+    // Write C++ code here
+    Node* node=new Node(2);
+    cout<<node->data<<" "<<node->next<<endl;
+    Node* head=node;
+    print(head);
+    cout<<"insert at head: "<<" ";
+    insertHead(head,1);
+    insertHead(head,3);
+    insertHead(head,5);
+    insertHead(head,4);
+    print(head);
+    Node* tail=node;
+    cout<<"insert at tail: "<<" ";
+    insertTail(tail,6);
+    print(head);
+    cout<<"insert at position: "<<" ";
+    head=insertPos(head,7,7);
+    print(head);
+    cout<<"insert at before value: "<<" ";
+    head=insertBeforeValue(head,8,4);
+    print(head);
+    return 0;
+}
